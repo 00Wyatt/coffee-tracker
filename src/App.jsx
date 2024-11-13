@@ -5,22 +5,24 @@ import Stats from "./components/Stats";
 import CoffeeForm from "./components/CoffeeForm";
 
 function App() {
-	const isAuthenticated = false;
+    const isAuthenticated = true;
 
-	const authenticatedContent = (
-		<>
-			<Stats />
-			<History />
-		</>
-	)
+    const authenticatedContent = (
+        <>
+            <Stats />
+            {/* <History /> */}
+        </>
+    );
 
-	return <>
-		<Layout>
-			<Hero />
-			<CoffeeForm />
-			{isAuthenticated && (authenticatedContent)}
-		</Layout>
-	</>;
+    return (
+        <>
+            <Layout>
+                <Hero />
+                <CoffeeForm />
+                {isAuthenticated && authenticatedContent}
+            </Layout>
+        </>
+    );
 }
 
 export default App;
