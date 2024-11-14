@@ -1,7 +1,7 @@
 import { coffeeOptions } from "../utils";
 import { useState } from "react";
 
-export default function CoffeeForm() {
+export default function CoffeeForm({ isAuthenticated, setShowModal }) {
     const [selectedCoffee, setSelectedCoffee] = useState(null);
     const [showCoffeeTypes, setShowCoffeeTypes] = useState(false);
     const [coffeeCost, setCoffeeCost] = useState(0);
@@ -9,6 +9,10 @@ export default function CoffeeForm() {
     const [min, setMin] = useState(0);
 
     function handleSubmitForm() {
+        if (!isAuthenticated) {
+            setShowModal(true);
+            return;
+        }
         console.log(selectedCoffee, coffeeCost, hour, min);
     }
 
