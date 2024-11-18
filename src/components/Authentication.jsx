@@ -50,7 +50,14 @@ export default function Authentication({ handleCloseModal }) {
                     ? "Create an account!"
                     : "Sign in to your account!"}
             </p>
-            {error && <p>❌ {error}</p>}
+            {error && (
+                <p className="flex gap-1">
+                    <span className="material-symbols-outlined text-red-500">
+                        error
+                    </span>{" "}
+                    {error}
+                </p>
+            )}
             <input
                 value={email}
                 onChange={(e) => {

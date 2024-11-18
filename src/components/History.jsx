@@ -9,7 +9,7 @@ export default function History() {
     const { globalData } = useAuth();
 
     return (
-        <div className="flex flex-col gap-4 py-12">
+        <div className="flex flex-col gap-4 py-8 sm:py-12">
             <div className="flex items-center gap-2 text-3xl font-semibold">
                 <span className="material-symbols-outlined text-3xl">
                     timeline

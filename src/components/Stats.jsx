@@ -14,7 +14,7 @@ function StatCard({ lg, title, children }) {
                 (lg ? " sm:col-span-2" : "")
             }
         >
-            <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+            <h3 className="mb-2 text-lg font-semibold sm:text-xl">{title}</h3>
             {children}
         </div>
     );
@@ -35,7 +35,7 @@ export default function Stats() {
               : "high";
 
     return (
-        <div className="flex flex-col gap-6 py-12">
+        <div className="flex flex-col gap-6 py-8 sm:py-12">
             <div className="flex items-center gap-2 text-3xl font-semibold">
                 <span className="material-symbols-outlined text-3xl">
                     bar_chart
@@ -63,24 +63,26 @@ export default function Stats() {
                 </StatCard>
                 <StatCard title="Daily Caffeine">
                     <p>
-                        <span className="text-lg">{stats.daily_caffeine}</span>
+                        <span className="sm:text-lg">
+                            {stats.daily_caffeine}
+                        </span>
                         mg
                     </p>
                 </StatCard>
                 <StatCard title="Avg # of Coffees">
-                    <p className="text-lg">{stats.average_coffees}</p>
+                    <p className="sm:text-lg">{stats.average_coffees}</p>
                 </StatCard>
                 <StatCard title="Daily Cost ($)">
                     <p>
-                        $ <span className="text-lg">{stats.daily_cost}</span>
+                        $ <span className="sm:text-lg">{stats.daily_cost}</span>
                     </p>
                 </StatCard>
                 <StatCard title="Total Cost ($)">
                     <p>
-                        $ <span className="text-lg">{stats.total_cost}</span>
+                        $ <span className="sm:text-lg">{stats.total_cost}</span>
                     </p>
                 </StatCard>
-                <table className="col-span-2 text-lg">
+                <table className="sm:col-span-2 sm:text-lg">
                     <thead className="dark:bg-slate-900">
                         <tr className="*:px-4 *:py-2">
                             <th>Coffee Name</th>

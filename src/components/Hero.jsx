@@ -1,28 +1,28 @@
 export default function Hero() {
     return (
-        <div className="flex flex-col gap-8 py-12 lg:py-24">
-            <h1 className="text-4xl font-bold">
+        <div className="flex flex-col gap-8 py-8 sm:py-12 lg:py-24">
+            <h1 className="text-3xl font-bold sm:text-4xl">
                 Coffee Tracking for Caffeine Enthusiasts!
             </h1>
             <div>
-                <p className="mb-4 text-xl font-semibold">
+                <p className="mb-4 text-lg font-semibold sm:text-xl">
                     Try Coffee Tracker and start ...
                 </p>
-                <ul className="pl-4 text-lg *:flex *:items-center *:gap-2">
+                <ul className="pl-2 *:flex *:items-center *:gap-2 sm:pl-4 sm:text-lg">
                     <li className="mb-1">
-                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                        <span className="material-symbols-outlined text-2xl text-cyan-500 sm:text-3xl">
                             check_circle
                         </span>
                         Tracking every coffee
                     </li>
                     <li className="mb-1">
-                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                        <span className="material-symbols-outlined text-2xl text-cyan-500 sm:text-3xl">
                             check_circle
                         </span>
                         Measuring your blood caffeine levels
                     </li>
                     <li>
-                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                        <span className="material-symbols-outlined text-2xl text-cyan-500 sm:text-3xl">
                             check_circle
                         </span>
                         Costing and quanitifying your addition

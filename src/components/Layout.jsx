@@ -6,11 +6,11 @@ export default function Layout({ children, setShowModal }) {
     const { globalUser, logout } = useAuth();
 
     const header = (
-        <header className="mx-auto flex max-w-screen-xl items-center bg-white px-5 py-4 lg:px-16 dark:bg-slate-800">
-            <div className="flex flex-auto flex-col gap-x-3 sm:flex-row sm:items-end">
+        <header className="mx-auto flex max-w-screen-xl flex-col gap-6 bg-white px-5 py-4 sm:flex-row sm:items-center lg:px-16 dark:bg-slate-800">
+            <div className="flex flex-auto flex-col items-center gap-x-3 sm:flex-row sm:items-end">
                 <h1 className="text-2xl font-bold uppercase">Coffee Tracker</h1>
             </div>
-            <div className="flex flex-auto items-center justify-end gap-8">
+            <div className="flex flex-auto items-center justify-between gap-8 sm:justify-end">
                 <ThemeToggle />
                 {globalUser ? (
                     <button

@@ -60,13 +60,13 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
     }
 
     return (
-        <div className="flex flex-col gap-6 pb-12">
+        <div className="flex flex-col gap-6 pb-8 sm:pb-12">
             <div className="flex items-center gap-2 text-3xl font-semibold">
                 <span className="material-symbols-outlined text-3xl">edit</span>
                 <h2>Start Tracking Today</h2>
             </div>
-            <h3 className="text-xl">Select coffee type</h3>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <h3 className="text-lg sm:text-xl">Select coffee type</h3>
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
                 {coffeeOptions.slice(0, 5).map((option, optionIndex) => {
                     return (
                         <button
@@ -75,14 +75,14 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                                 setShowCoffeeTypes(false);
                             }}
                             className={
-                                "rounded-md border-2 bg-slate-100 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                                "rounded-md border-2 bg-slate-100 px-2 py-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 dark:hover:border-cyan-400 " +
                                 (option.name === selectedCoffee
                                     ? "border-cyan-500 dark:border-cyan-400"
                                     : "border-slate-200 dark:border-slate-700")
                             }
                             key={optionIndex}
                         >
-                            <p className="text-xl font-semibold">
+                            <p className="text-lg font-semibold sm:text-xl">
                                 {option.name}
                             </p>
                             <p className="">{option.caffeine} mg</p>
@@ -95,13 +95,13 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                         setSelectedCoffee(null);
                     }}
                     className={
-                        "rounded-md border-2 bg-slate-100 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                        "rounded-md border-2 bg-slate-100 p-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 dark:hover:border-cyan-400 " +
                         (showCoffeeTypes
                             ? "border-cyan-500 dark:border-cyan-400"
                             : "border-slate-200 dark:border-slate-700")
                     }
                 >
-                    <p className="text-xl font-semibold">Other</p>
+                    <p className="text-lg font-semibold sm:text-xl">Other</p>
                     <p className="">n/a</p>
                 </button>
             </div>
@@ -122,17 +122,17 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     })}
                 </select>
             )}
-            <h3 className="text-xl">Add the cost ($)</h3>
+            <h3 className="text-lg sm:text-xl">Add the cost ($)</h3>
             <input
                 onChange={(e) => {
                     setCoffeeCost(e.target.value);
                 }}
                 value={coffeeCost}
-                className="w-1/4 rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 sm:w-1/4 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
                 type="number"
                 placeholder="4.50"
             />
-            <h3 className="text-xl">Time since consumption</h3>
+            <h3 className="text-lg sm:text-xl">Time since consumption</h3>
             <div className="flex gap-4">
                 <div>
                     <p className="mb-2">Hours</p>

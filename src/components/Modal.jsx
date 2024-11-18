@@ -7,7 +7,7 @@ export default function Modal({ children, handleCloseModal }) {
                 onClick={handleCloseModal}
                 className="absolute z-40 w-full bg-neutral-900 opacity-50 [inset:0]"
             />
-            <div className="modal-content relative z-50 w-full max-w-lg rounded-lg bg-white p-8 dark:bg-slate-700">
+            <div className="modal-content relative z-50 w-full max-w-lg rounded-lg bg-white p-6 sm:p-8 dark:bg-slate-700">
                 {children}
             </div>
         </div>,
