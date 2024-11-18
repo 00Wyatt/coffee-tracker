@@ -1,5 +1,8 @@
 import { coffeeOptions } from "../utils";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export default function CoffeeForm({ isAuthenticated, setShowModal }) {
     const [selectedCoffee, setSelectedCoffee] = useState(null);
@@ -8,18 +11,58 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
     const [hour, setHour] = useState(0);
     const [min, setMin] = useState(0);
 
-    function handleSubmitForm() {
+    const { globalData, setGlobalData, globalUser } = useAuth();
+
+    async function handleSubmitForm() {
         if (!isAuthenticated) {
             setShowModal(true);
             return;
         }
-        console.log(selectedCoffee, coffeeCost, hour, min);
+
+        if (!selectedCoffee) {
+            return;
+        }
+
+        try {
+            const newGlobalData = {
+                ...(globalData || {}),
+            };
+
+            const nowTime = Date.now();
+            const timeToSubtract = hour * 60 * 60 * 1000 + min * 60 * 1000;
+            const timestamp = nowTime - timeToSubtract;
+
+            const newData = {
+                name: selectedCoffee,
+                cost: coffeeCost,
+            };
+            newGlobalData[timestamp] = newData;
+            // console.log(timestamp, selectedCoffee, coffeeCost);
+
+            setGlobalData(newGlobalData);
+
+            const userRef = doc(db, "users", globalUser.uid);
+            const res = await setDoc(
+                userRef,
+                {
+                    [timestamp]: newData,
+                },
+                { merge: true },
+            );
+
+            setSelectedCoffee(null);
+            setHour(0);
+            setMin(0);
+            setCoffeeCost(0);
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     return (
         <div className="flex flex-col gap-6 pb-12">
             <div className="flex items-center gap-2 text-3xl font-semibold">
-                <span class="material-symbols-outlined text-3xl">edit</span>
+                <span className="material-symbols-outlined text-3xl">edit</span>
                 <h2>Start Tracking Today</h2>
             </div>
             <h3 className="text-xl">Select coffee type</h3>
@@ -32,10 +75,10 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                                 setShowCoffeeTypes(false);
                             }}
                             className={
-                                "rounded-md border-2 bg-cyan-50 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                                "rounded-md border-2 bg-slate-100 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
                                 (option.name === selectedCoffee
                                     ? "border-cyan-500 dark:border-cyan-400"
-                                    : "border-cyan-200 dark:border-slate-700")
+                                    : "border-slate-200 dark:border-slate-700")
                             }
                             key={optionIndex}
                         >
@@ -52,10 +95,10 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                         setSelectedCoffee(null);
                     }}
                     className={
-                        "rounded-md border-2 bg-cyan-50 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                        "rounded-md border-2 bg-slate-100 p-8 duration-200 hover:border-cyan-500 dark:bg-slate-900 dark:hover:border-cyan-400 " +
                         (showCoffeeTypes
                             ? "border-cyan-500 dark:border-cyan-400"
-                            : "border-cyan-200 dark:border-slate-700")
+                            : "border-slate-200 dark:border-slate-700")
                     }
                 >
                     <p className="text-xl font-semibold">Other</p>
@@ -67,7 +110,7 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     onChange={(e) => setSelectedCoffee(e.target.value)}
                     id="coffee-list"
                     name="coffee-list"
-                    className="rounded-md border border-cyan-200 bg-cyan-50 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                    className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
                 >
                     <option value={null}>Select type</option>
                     {coffeeOptions.map((option, optionIndex) => {
@@ -85,7 +128,7 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     setCoffeeCost(e.target.value);
                 }}
                 value={coffeeCost}
-                className="rounded-md border border-cyan-200 bg-cyan-50 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                className="w-1/4 rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
                 type="number"
                 placeholder="4.50"
             />
@@ -95,7 +138,8 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     <p className="mb-2">Hours</p>
                     <select
                         onChange={(e) => setHour(e.target.value)}
-                        className="rounded-md border border-cyan-200 bg-cyan-50 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                        value={hour}
+                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
                         id="hours-select"
                     >
                         {[
@@ -114,7 +158,8 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     <p className="mb-2">Mins</p>
                     <select
                         onChange={(e) => setMin(e.target.value)}
-                        className="rounded-md border border-cyan-200 bg-cyan-50 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                        value={min}
+                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
                         id="mins-select"
                     >
                         {[0, 5, 10, 15, 30, 45].map((min, minIndex) => {

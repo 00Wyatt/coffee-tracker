@@ -6,9 +6,12 @@ import Stats from "./components/Stats";
 import CoffeeForm from "./components/CoffeeForm";
 import Modal from "./components/Modal";
 import Authentication from "./components/Authentication";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
-    const isAuthenticated = false;
+    const { globalUser, isLoading, globalData } = useAuth();
+    const isAuthenticated = globalUser;
+    const isData = globalData && !!Object.keys(globalData || {}).length;
     const [showModal, setShowModal] = useState(false);
 
     function handleCloseModal() {
@@ -19,7 +22,7 @@ function App() {
         <>
             {showModal && (
                 <Modal handleCloseModal={handleCloseModal}>
-                    <Authentication />
+                    <Authentication handleCloseModal={handleCloseModal} />
                 </Modal>
             )}
             <Layout setShowModal={setShowModal}>
@@ -28,7 +31,8 @@ function App() {
                     isAuthenticated={isAuthenticated}
                     setShowModal={setShowModal}
                 />
-                {isAuthenticated && (
+                {isAuthenticated && isLoading && <p>Loading data...</p>}
+                {isAuthenticated && isData && (
                     <>
                         <Stats />
                         <History />

@@ -4,19 +4,32 @@ export default function Hero() {
             <h1 className="text-4xl font-bold">
                 Coffee Tracking for Caffeine Enthusiasts!
             </h1>
-            <div className="">
+            <div>
                 <p className="mb-4 text-xl font-semibold">
                     Try Coffee Tracker and start ...
                 </p>
-                <ul className="pl-4 text-lg">
-                    <li className="mb-1">✅ Tracking every coffee</li>
+                <ul className="pl-4 text-lg *:flex *:items-center *:gap-2">
                     <li className="mb-1">
-                        ✅ Measuring your blood caffeine levels
+                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                            check_circle
+                        </span>
+                        Tracking every coffee
                     </li>
-                    <li>✅ Costing and quanitifying your addition</li>
+                    <li className="mb-1">
+                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                            check_circle
+                        </span>
+                        Measuring your blood caffeine levels
+                    </li>
+                    <li>
+                        <span className="material-symbols-outlined text-3xl text-cyan-500">
+                            check_circle
+                        </span>
+                        Costing and quanitifying your addition
+                    </li>
                 </ul>
             </div>
-            <div className="max-w-xl rounded-md bg-cyan-50 px-5 py-6 dark:bg-slate-900">
+            <div className="max-w-xl rounded-md bg-slate-100 px-5 py-6 dark:bg-slate-900">
                 <div className="mb-4 flex items-center gap-2">
                     <span className="material-symbols-outlined">info</span>
                     <p className="text-2xl font-semibold">Did you know...</p>

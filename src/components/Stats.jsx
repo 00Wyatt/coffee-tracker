@@ -1,7 +1,7 @@
+import { useAuth } from "../context/AuthContext";
 import {
     calculateCoffeeStats,
     calculateCurrentCaffeineLevel,
-    coffeeConsumptionHistory,
     getTopThreeCoffees,
     statusLevels,
 } from "../utils";
@@ -10,7 +10,7 @@ function StatCard({ lg, title, children }) {
     return (
         <div
             className={
-                "rounded-md border-2 border-cyan-200 bg-cyan-50 p-4 dark:border-slate-700 dark:bg-slate-900" +
+                "rounded-md border-2 border-slate-200 bg-slate-100 p-4 dark:border-slate-700 dark:bg-slate-900" +
                 (lg ? " sm:col-span-2" : "")
             }
         >
@@ -21,11 +21,11 @@ function StatCard({ lg, title, children }) {
 }
 
 export default function Stats() {
-    const stats = calculateCoffeeStats(coffeeConsumptionHistory);
+    const { globalData } = useAuth();
 
-    const caffeineLevel = calculateCurrentCaffeineLevel(
-        coffeeConsumptionHistory,
-    );
+    const stats = calculateCoffeeStats(globalData);
+
+    const caffeineLevel = calculateCurrentCaffeineLevel(globalData);
 
     const warningLevel =
         caffeineLevel < statusLevels["low"].maxLevel
@@ -37,7 +37,7 @@ export default function Stats() {
     return (
         <div className="flex flex-col gap-6 py-12">
             <div className="flex items-center gap-2 text-3xl font-semibold">
-                <span class="material-symbols-outlined text-3xl">
+                <span className="material-symbols-outlined text-3xl">
                     bar_chart
                 </span>
                 <h2>Stats</h2>
@@ -89,7 +89,7 @@ export default function Stats() {
                         </tr>
                     </thead>
                     <tbody>
-                        {getTopThreeCoffees(coffeeConsumptionHistory).map(
+                        {getTopThreeCoffees(globalData).map(
                             (coffee, coffeeIndex) => {
                                 return (
                                     <tr

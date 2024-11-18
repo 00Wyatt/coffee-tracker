@@ -1,28 +1,41 @@
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle";
+import { useAuth } from "../context/AuthContext";
 
 export default function Layout({ children, setShowModal }) {
+    const { globalUser, logout } = useAuth();
+
     const header = (
-        <header className="mx-auto flex max-w-screen-xl items-center px-5 py-4 lg:px-16">
+        <header className="mx-auto flex max-w-screen-xl items-center bg-white px-5 py-4 lg:px-16 dark:bg-slate-800">
             <div className="flex flex-auto flex-col gap-x-3 sm:flex-row sm:items-end">
                 <h1 className="text-2xl font-bold uppercase">Coffee Tracker</h1>
-                <p className="font-lg italic">For Caffeine Insatiates</p>
             </div>
             <div className="flex flex-auto items-center justify-end gap-8">
                 <ThemeToggle />
-                <button
-                    onClick={() => setShowModal(true)}
-                    className="flex items-center gap-2 rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
-                >
-                    Sign up free
-                    <span className="material-symbols-outlined">coffee</span>
-                </button>
+                {globalUser ? (
+                    <button
+                        onClick={logout}
+                        className="flex rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
+                    >
+                        Logout
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="flex items-center gap-2 rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
+                    >
+                        Sign up free
+                        <span className="material-symbols-outlined">
+                            coffee
+                        </span>
+                    </button>
+                )}
             </div>
         </header>
     );
 
     const footer = (
-        <footer className="flex justify-center bg-cyan-50 p-2 text-xs dark:bg-slate-900">
+        <footer className="mx-auto flex max-w-screen-xl justify-center bg-white p-2 text-xs dark:bg-slate-800">
             <p>Developed by Wyatt Channings</p>
         </footer>
     );
@@ -30,7 +43,7 @@ export default function Layout({ children, setShowModal }) {
     return (
         <>
             {header}
-            <main className="mx-auto max-w-screen-xl px-5 lg:px-16">
+            <main className="mx-auto max-w-screen-xl bg-white px-5 lg:px-16 dark:bg-slate-800">
                 {children}
             </main>
             {footer}
