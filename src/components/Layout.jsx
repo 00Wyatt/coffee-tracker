@@ -3,14 +3,24 @@ import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "../context/AuthContext";
 
 export default function Layout({ children, setShowModal }) {
+    const [showMenu, setShowMenu] = useState(false);
     const { globalUser, logout } = useAuth();
 
+    function handleToggleMenu() {
+        setShowMenu(!showMenu);
+    }
+
     const header = (
-        <header className="mx-auto flex max-w-screen-xl flex-col gap-6 bg-white px-5 py-4 sm:flex-row sm:items-center lg:px-16 dark:bg-slate-800">
-            <div className="flex flex-auto flex-col items-center gap-x-3 sm:flex-row sm:items-end">
+        <header className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-6 bg-white px-5 py-4 lg:px-16 dark:bg-slate-800">
+            <div className="flex flex-auto items-center gap-x-3">
                 <h1 className="text-2xl font-bold uppercase">Coffee Tracker</h1>
             </div>
-            <div className="flex flex-auto items-center justify-between gap-8 sm:justify-end">
+            <div
+                className={
+                    "order-1 w-full flex-auto items-center justify-between gap-8 sm:flex sm:w-auto sm:justify-end" +
+                    (showMenu ? " flex" : " hidden")
+                }
+            >
                 <ThemeToggle />
                 {globalUser ? (
                     <button
@@ -30,6 +40,18 @@ export default function Layout({ children, setShowModal }) {
                         </span>
                     </button>
                 )}
+            </div>
+            <div className="flex flex-auto justify-end sm:hidden">
+                <button
+                    onClick={handleToggleMenu}
+                    className="duration-200 hover:text-cyan-500"
+                >
+                    {showMenu ? (
+                        <span className="material-symbols-outlined">close</span>
+                    ) : (
+                        <span className="material-symbols-outlined">menu</span>
+                    )}
+                </button>
             </div>
         </header>
     );

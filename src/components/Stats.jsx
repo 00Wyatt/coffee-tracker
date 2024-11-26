@@ -82,25 +82,29 @@ export default function Stats() {
                         $ <span className="sm:text-lg">{stats.total_cost}</span>
                     </p>
                 </StatCard>
-                <table className="sm:col-span-2 sm:text-lg">
-                    <thead className="dark:bg-slate-900">
+                <table className="rounded-md border-2 border-slate-200 [border-collapse:separate] [border-spacing:0] sm:col-span-2 sm:text-lg dark:border-slate-900">
+                    <thead className="bg-slate-100 dark:bg-slate-900">
                         <tr className="*:px-4 *:py-2">
                             <th>Coffee Name</th>
                             <th>Number of Purchase</th>
                             <th>Percentage of Total</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="">
                         {getTopThreeCoffees(globalData).map(
                             (coffee, coffeeIndex) => {
                                 return (
                                     <tr
                                         key={coffeeIndex}
-                                        className="text-center"
+                                        className="border-b-2 text-center *:px-4 *:py-1"
                                     >
                                         <td>{coffee.coffeeName}</td>
-                                        <td>{coffee.count}</td>
-                                        <td>{coffee.percentage}</td>
+                                        <td className="border-l-2 border-slate-200 dark:border-slate-900">
+                                            {coffee.count}
+                                        </td>
+                                        <td className="border-l-2 border-slate-200 dark:border-slate-900">
+                                            {coffee.percentage}
+                                        </td>
                                     </tr>
                                 );
                             },
