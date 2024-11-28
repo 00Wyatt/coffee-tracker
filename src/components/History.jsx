@@ -32,12 +32,15 @@ export default function History() {
 
                         return (
                             <div
-                                title={summary}
+                                tabindex="0"
                                 key={coffeeIndex}
-                                className="flex cursor-pointer"
+                                className="group relative flex cursor-pointer"
                             >
                                 <span className="material-symbols-outlined text-3xl">
                                     coffee
+                                </span>
+                                <span className="invisible absolute bottom-full z-10 w-48 rounded bg-slate-100 px-1 py-2 text-center text-xs group-hover:visible group-focus-visible:visible dark:bg-slate-900">
+                                    {summary}
                                 </span>
                             </div>
                         );

@@ -82,27 +82,29 @@ export default function Stats() {
                         $ <span className="sm:text-lg">{stats.total_cost}</span>
                     </p>
                 </StatCard>
-                <table className="rounded-md border-2 border-slate-200 [border-collapse:separate] [border-spacing:0] sm:col-span-2 sm:text-lg dark:border-slate-900">
-                    <thead className="bg-slate-100 dark:bg-slate-900">
-                        <tr className="*:px-4 *:py-2">
-                            <th>Coffee Name</th>
-                            <th>Number of Purchase</th>
-                            <th>Percentage of Total</th>
+                <table className="border-separate border-spacing-0 rounded-md border-2 border-slate-200 text-sm sm:col-span-2 sm:text-lg dark:border-slate-700">
+                    <thead>
+                        <tr className="*:border-b-2 *:bg-slate-100 *:px-4 *:py-2 *:dark:border-slate-700 *:dark:bg-slate-900">
+                            <th className="rounded-tl-[4px]">Coffee Name</th>
+                            <th className="border-l-2">Number of Purchase</th>
+                            <th className="rounded-tr-[4px] border-l-2">
+                                Percentage of Total
+                            </th>
                         </tr>
                     </thead>
-                    <tbody className="">
+                    <tbody>
                         {getTopThreeCoffees(globalData).map(
                             (coffee, coffeeIndex) => {
                                 return (
                                     <tr
                                         key={coffeeIndex}
-                                        className="border-b-2 text-center *:px-4 *:py-1"
+                                        className="text-center *:px-4 *:py-1"
                                     >
                                         <td>{coffee.coffeeName}</td>
-                                        <td className="border-l-2 border-slate-200 dark:border-slate-900">
+                                        <td className="border-l-2 border-slate-200 dark:border-slate-700">
                                             {coffee.count}
                                         </td>
-                                        <td className="border-l-2 border-slate-200 dark:border-slate-900">
+                                        <td className="border-l-2 border-slate-200 dark:border-slate-700">
                                             {coffee.percentage}
                                         </td>
                                     </tr>

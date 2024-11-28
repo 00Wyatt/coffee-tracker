@@ -42,6 +42,14 @@ export default function Authentication({ handleCloseModal }) {
 
     return (
         <div className="flex flex-col gap-4">
+            <div className="mb-[-2.5rem] flex justify-end">
+                <button
+                    className="material-symbols-outlined z-10 duration-200 focus-within:text-cyan-500 hover:text-cyan-500"
+                    onClick={handleCloseModal}
+                >
+                    close
+                </button>
+            </div>
             <h2 className="text-3xl font-semibold">
                 {isRegistration ? "Sign Up" : "Login"}
             </h2>
@@ -54,7 +62,7 @@ export default function Authentication({ handleCloseModal }) {
                 <p className="flex gap-1">
                     <span className="material-symbols-outlined text-red-500">
                         error
-                    </span>{" "}
+                    </span>
                     {error}
                 </p>
             )}

@@ -48,11 +48,12 @@ export default function ThemeToggle() {
     }, [theme]);
 
     return (
-        <span
-            className="material-symbols-outlined cursor-pointer select-none duration-200 hover:text-cyan-500"
+        <button
+            aria-label="Toggle theme"
+            className="material-symbols-outlined duration-200 focus-within:text-cyan-500 hover:text-cyan-500"
             onClick={() => toggleTheme()}
         >
             {themeIcons[theme]}
-        </span>
+        </button>
     );
 }
