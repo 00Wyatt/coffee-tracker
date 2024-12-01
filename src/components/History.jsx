@@ -32,7 +32,7 @@ export default function History() {
 
                         return (
                             <div
-                                tabindex="0"
+                                tabIndex="0"
                                 key={coffeeIndex}
                                 className="group relative flex cursor-pointer"
                             >

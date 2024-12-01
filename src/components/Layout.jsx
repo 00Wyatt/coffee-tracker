@@ -13,7 +13,11 @@ export default function Layout({ children, setShowModal }) {
     const header = (
         <header className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-6 bg-white px-5 py-4 lg:px-16 dark:bg-slate-800">
             <div className="flex flex-auto items-center gap-x-3">
-                <h1 className="text-2xl font-bold uppercase">Coffee Tracker</h1>
+                <a href="/">
+                    <h1 className="text-2xl font-bold uppercase">
+                        Coffee Tracker
+                    </h1>
+                </a>
             </div>
             <div
                 className={

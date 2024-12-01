@@ -22,7 +22,10 @@ function App() {
         <>
             {showModal && (
                 <Modal handleCloseModal={handleCloseModal}>
-                    <Authentication handleCloseModal={handleCloseModal} />
+                    <Authentication
+                        showModal={showModal}
+                        handleCloseModal={handleCloseModal}
+                    />
                 </Modal>
             )}
             <Layout setShowModal={setShowModal}>

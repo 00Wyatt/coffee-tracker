@@ -1,95 +1,146 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
-export default function Authentication({ handleCloseModal }) {
+export default function Authentication({ showModal, handleCloseModal }) {
     const [isRegistration, setIsRegistration] = useState(true);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [isAuthenticating, setIsAuthenticating] = useState(false);
-    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [errors, setErrors] = useState({ auth: "", email: "", password: "" });
+    const emailInputRef = useRef(null);
 
     const { signup, login } = useAuth();
 
-    async function handleAuthenticate() {
+    // Focus email input when modal opens
+    useEffect(() => {
+        if (showModal) {
+            emailInputRef.current.focus();
+        }
+    }, [showModal, isRegistration]);
+
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({
+            ...prev,
+            [name]: value ? "" : `${name} is required`,
+        }));
+    }
+
+    function validateForm() {
+        const newErrors = { auth: "" };
+        if (!formData.email.trim()) {
+            newErrors.email = "Email is required";
+        } else if (!formData.email.includes("@")) {
+            newErrors.email = "Email must include '@'";
+        }
+        if (!formData.password.trim()) {
+            newErrors.password = "Password is required";
+        }
+        setErrors(newErrors);
+
+        // Return true if no new errors, otherwise false
+        return Object.keys(newErrors).length > 0;
+    }
+
+    async function handleSubmit() {
         if (
-            !email ||
-            !email.includes("@") ||
-            !password ||
-            password.length < 6 ||
+            !validateForm() ||
+            !formData.email ||
+            !formData.email.includes("@") ||
+            !formData.password ||
+            formData.password.length < 6 ||
             isAuthenticating
         ) {
             return;
         }
         try {
             setIsAuthenticating(true);
-            setError(null);
+            // setErrors(null);
 
             if (isRegistration) {
-                // register a user
-                await signup(email, password);
+                // Register a user
+                await signup(formData.email, formData.password);
             } else {
-                // login a user
-                await login(email, password);
+                // Log a user in
+                await login(formData.email, formData.password);
             }
             handleCloseModal();
         } catch (err) {
-            console.log(err.message);
-            setError(err.message);
+            setErrors((prev) => ({
+                ...prev,
+                auth: err.message,
+            }));
         } finally {
             setIsAuthenticating(false);
         }
     }
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="mb-[-2.5rem] flex justify-end">
+        <>
+            <div className="flex flex-col gap-4">
+                <div className="mb-[-2.5rem] flex justify-end">
+                    <button
+                        className="material-symbols-outlined z-10 duration-200 focus-within:text-cyan-500 hover:text-cyan-500"
+                        onClick={handleCloseModal}
+                    >
+                        close
+                    </button>
+                </div>
+                <h2 className="text-3xl font-semibold">
+                    {isRegistration ? "Sign Up" : "Login"}
+                </h2>
+                <p>
+                    {isRegistration
+                        ? "Create an account!"
+                        : "Sign in to your account!"}
+                </p>
+                {errors.auth && (
+                    <p className="flex gap-1">
+                        <span className="material-symbols-outlined text-red-500">
+                            error
+                        </span>
+                        {errors.auth}
+                    </p>
+                )}
+                <div>
+                    <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        ref={emailInputRef}
+                        placeholder="Email"
+                        className="dark:focus:border-cyan-40 block w-full rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-600 dark:bg-slate-800"
+                    />
+                    {errors.email && (
+                        <span className="text-sm text-red-500">
+                            {errors.email}
+                        </span>
+                    )}
+                </div>
+                <div>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="********"
+                        className="dark:focus:border-cyan-40 block w-full rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-600 dark:bg-slate-800"
+                    />
+                    {errors.password && (
+                        <span className="text-sm text-red-500">
+                            {errors.password}
+                        </span>
+                    )}
+                </div>
                 <button
-                    className="material-symbols-outlined z-10 duration-200 focus-within:text-cyan-500 hover:text-cyan-500"
-                    onClick={handleCloseModal}
+                    onClick={handleSubmit}
+                    className="self-start rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
                 >
-                    close
+                    {isAuthenticating ? "Authenticating..." : "Submit"}
                 </button>
             </div>
-            <h2 className="text-3xl font-semibold">
-                {isRegistration ? "Sign Up" : "Login"}
-            </h2>
-            <p>
-                {isRegistration
-                    ? "Create an account!"
-                    : "Sign in to your account!"}
-            </p>
-            {error && (
-                <p className="flex gap-1">
-                    <span className="material-symbols-outlined text-red-500">
-                        error
-                    </span>
-                    {error}
-                </p>
-            )}
-            <input
-                value={email}
-                onChange={(e) => {
-                    setEmail(e.target.value);
-                }}
-                placeholder="Email"
-                className="dark:focus:border-cyan-40 rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-600 dark:bg-slate-800"
-            />
-            <input
-                value={password}
-                onChange={(e) => {
-                    setPassword(e.target.value);
-                }}
-                placeholder="********"
-                type="password"
-                className="dark:focus:border-cyan-40 rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-600 dark:bg-slate-800"
-            />
-            <button
-                onClick={handleAuthenticate}
-                className="self-start rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
-            >
-                {isAuthenticating ? "Authenticating..." : "Submit"}
-            </button>
-            <hr />
+            <hr className="my-4" />
             <div>
                 <p className="mb-1">
                     {isRegistration
@@ -105,6 +156,6 @@ export default function Authentication({ handleCloseModal }) {
                     {isRegistration ? "Sign in" : "Sign up"}
                 </button>
             </div>
-        </div>
+        </>
     );
 }
