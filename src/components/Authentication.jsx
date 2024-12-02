@@ -7,8 +7,9 @@ export default function Authentication({ showModal, handleCloseModal }) {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ auth: "", email: "", password: "" });
     const emailInputRef = useRef(null);
-
     const { signup, login } = useAuth();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Focus email input when modal opens
     useEffect(() => {
@@ -22,40 +23,39 @@ export default function Authentication({ showModal, handleCloseModal }) {
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({
             ...prev,
-            [name]: value ? "" : `${name} is required`,
+            [name]: value.trim()
+                ? ""
+                : `${name === "email" ? "Email" : "Password"} is required`,
         }));
     }
 
     function validateForm() {
         const newErrors = { auth: "" };
+
+        // Validate email
         if (!formData.email.trim()) {
             newErrors.email = "Email is required";
-        } else if (!formData.email.includes("@")) {
-            newErrors.email = "Email must include '@'";
+        } else if (!emailRegex.test(formData.email)) {
+            newErrors.email = "Please enter a valid email";
         }
+        // Validate password
         if (!formData.password.trim()) {
             newErrors.password = "Password is required";
+        } else if (formData.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters long";
         }
         setErrors(newErrors);
 
-        // Return true if no new errors, otherwise false
-        return Object.keys(newErrors).length > 0;
+        // Return true if no new errors
+        return Object.values(newErrors).every((error) => error === "");
     }
 
     async function handleSubmit() {
-        if (
-            !validateForm() ||
-            !formData.email ||
-            !formData.email.includes("@") ||
-            !formData.password ||
-            formData.password.length < 6 ||
-            isAuthenticating
-        ) {
+        if (!validateForm() || isAuthenticating) {
             return;
         }
         try {
             setIsAuthenticating(true);
-            // setErrors(null);
 
             if (isRegistration) {
                 // Register a user
@@ -66,6 +66,7 @@ export default function Authentication({ showModal, handleCloseModal }) {
             }
             handleCloseModal();
         } catch (err) {
+            console.log(err);
             setErrors((prev) => ({
                 ...prev,
                 auth: err.message,
@@ -135,6 +136,7 @@ export default function Authentication({ showModal, handleCloseModal }) {
                 </div>
                 <button
                     onClick={handleSubmit}
+                    disabled={isAuthenticating}
                     className="self-start rounded-md bg-cyan-500 px-6 py-3 font-semibold text-white duration-200 hover:bg-cyan-400"
                 >
                     {isAuthenticating ? "Authenticating..." : "Submit"}

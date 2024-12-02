@@ -37,7 +37,6 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                 cost: coffeeCost,
             };
             newGlobalData[timestamp] = newData;
-            // console.log(timestamp, selectedCoffee, coffeeCost);
 
             setGlobalData(newGlobalData);
 
@@ -75,9 +74,9 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                                 setShowCoffeeTypes(false);
                             }}
                             className={
-                                "rounded-md border-2 bg-slate-100 px-2 py-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                                "rounded-md border-2 bg-slate-100 px-2 py-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 " +
                                 (option.name === selectedCoffee
-                                    ? "border-cyan-500 dark:border-cyan-400"
+                                    ? "border-cyan-500"
                                     : "border-slate-200 dark:border-slate-700")
                             }
                             key={optionIndex}
@@ -95,9 +94,9 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                         setSelectedCoffee(null);
                     }}
                     className={
-                        "rounded-md border-2 bg-slate-100 p-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 dark:hover:border-cyan-400 " +
+                        "rounded-md border-2 bg-slate-100 p-6 duration-200 hover:border-cyan-500 sm:p-8 dark:bg-slate-900 " +
                         (showCoffeeTypes
-                            ? "border-cyan-500 dark:border-cyan-400"
+                            ? "border-cyan-500"
                             : "border-slate-200 dark:border-slate-700")
                     }
                 >
@@ -110,7 +109,7 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     onChange={(e) => setSelectedCoffee(e.target.value)}
                     id="coffee-list"
                     name="coffee-list"
-                    className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                    className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900"
                 >
                     <option value={null}>Select type</option>
                     {coffeeOptions.map((option, optionIndex) => {
@@ -128,9 +127,9 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     setCoffeeCost(e.target.value);
                 }}
                 value={coffeeCost}
-                className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 sm:w-1/4 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 sm:w-1/4 dark:border-slate-700 dark:bg-slate-900"
                 type="number"
-                placeholder="4.50"
+                min="0"
             />
             <h3 className="text-lg sm:text-xl">Time since consumption</h3>
             <div className="flex gap-4">
@@ -139,7 +138,7 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     <select
                         onChange={(e) => setHour(e.target.value)}
                         value={hour}
-                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900"
                         id="hours-select"
                     >
                         {[
@@ -159,7 +158,7 @@ export default function CoffeeForm({ isAuthenticated, setShowModal }) {
                     <select
                         onChange={(e) => setMin(e.target.value)}
                         value={min}
-                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-cyan-400"
+                        className="rounded-md border border-slate-200 bg-slate-100 p-4 focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900"
                         id="mins-select"
                     >
                         {[0, 5, 10, 15, 30, 45].map((min, minIndex) => {

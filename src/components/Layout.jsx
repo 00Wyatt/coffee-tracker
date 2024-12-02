@@ -62,7 +62,16 @@ export default function Layout({ children, setShowModal }) {
 
     const footer = (
         <footer className="mx-auto flex max-w-screen-xl justify-center bg-white p-2 text-xs dark:bg-slate-800">
-            <p>Developed by Wyatt Channings</p>
+            <p>
+                Developed by{" "}
+                <a
+                    href="https://github.com/00Wyatt"
+                    target="_blank"
+                    className="font-semibold duration-200 hover:text-cyan-500"
+                >
+                    Wyatt Channings
+                </a>
+            </p>
         </footer>
     );
 
